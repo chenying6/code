@@ -16,11 +16,11 @@
 
 
 // OpenCV
-#include <cv.h>
+#include <opencv2/imgproc/imgproc_c.h>
 //#include <cvaux.h>
-#include <cxcore.h>
+#include <opencv2/core.hpp>
 #ifdef USE_HIGHGUI
-    #include <highgui.h>
+    #include <opencv2/highgui.hpp>
 #endif
 
 
@@ -36,12 +36,15 @@
     #include <sys/types.h>
     #include <sys/stat.h>    // For mkdir(path, options) on Linux
 #endif
+#include <stdarg.h>
 #include <vector>
 #include <string>
 #include <iostream>            // for printing streams in C++
 //#include <stdarg.h>        // for variable-length args in C
 //#include <sstream>        // for printing floats in C++
 //#include <fstream>        // for opening files in C++
+
+using namespace cv;
 
 // These functions will print using the LOG() function, using the same format as printf(). If you want it to be printed using a different
 // function (such as for Android logcat output), then define LOG as your output function, otherwise it will use printf() by default.
@@ -261,9 +264,9 @@ CvRect offsetRect(const CvRect rectA, const CvRect rectB);
 CvRect offsetRectPt(const CvRect rectA, const CvPoint pt);
 
 // Draw a rectangle around the given object. (Use CV_RGB(255,0,0) for red color)
-void drawRect(IplImage *img, const CvRect rect, const CvScalar color DEFAULT(CV_RGB(220,0,0)));
+void drawRect(IplImage *img, const CvRect rect, const CvScalar color DEFAULT(cv::Scalar(220,0,0)));
 // Draw a filled rectangle around the given object.
-void drawRectFilled(IplImage *img, const CvRect rect, const CvScalar color DEFAULT(CV_RGB(220,0,0)));
+void drawRectFilled(IplImage *img, const CvRect rect, const CvScalar color DEFAULT(cv::Scalar(220,0,0)));
 
 // Print the label and then the rectangle information to the console for easy debugging
 void printRect(const CvRect rect, const char *label DEFAULT(0));

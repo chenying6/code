@@ -409,16 +409,16 @@ void printDataRange(const CvArr *src, const char *msg)
 //------------------------------------------------------------------------------
 // Graphing functions
 //------------------------------------------------------------------------------
-const CvScalar BLACK = CV_RGB(0,0,0);
-const CvScalar WHITE = CV_RGB(255,255,255);
-const CvScalar GREY = CV_RGB(150,150,150);
+const cv::Scalar BLACK = cv::Scalar(0,0,0);
+const cv::Scalar WHITE = cv::Scalar(255,255,255);
+const cv::Scalar GREY = cv::Scalar(150,150,150);
 
 int countGraph = 0;    // Used by 'getGraphColor()'
-CvScalar customGraphColor;
+cv::Scalar customGraphColor;
 int usingCustomGraphColor = 0;
 
 // Get a new color to draw graphs. Will use the latest custom color, or change between blue, green, red, dark-blue, dark-green and dark-red until a new image is created.
-CvScalar getGraphColor(void)
+cv::Scalar getGraphColor(void)
 {
     if (usingCustomGraphColor) {
         usingCustomGraphColor = 0;
@@ -427,18 +427,18 @@ CvScalar getGraphColor(void)
 
     countGraph++;
     switch (countGraph) {
-    case 1:    return CV_RGB(60,60,255);    // light-blue
-    case 2:    return CV_RGB(60,255,60);    // light-green
-    case 3:    return CV_RGB(255,60,40);    // light-red
-    case 4:    return CV_RGB(0,210,210);    // blue-green
-    case 5:    return CV_RGB(180,210,0);    // red-green
-    case 6:    return CV_RGB(210,0,180);    // red-blue
-    case 7:    return CV_RGB(0,0,185);        // dark-blue
-    case 8:    return CV_RGB(0,185,0);        // dark-green
-    case 9:    return CV_RGB(185,0,0);        // dark-red
+    case 1:    return cv::Scalar(60,60,255);    // light-blue
+    case 2:    return cv::Scalar(60,255,60);    // light-green
+    case 3:    return cv::Scalar(255,60,40);    // light-red
+    case 4:    return cv::Scalar(0,210,210);    // blue-green
+    case 5:    return cv::Scalar(180,210,0);    // red-green
+    case 6:    return cv::Scalar(210,0,180);    // red-blue
+    case 7:    return cv::Scalar(0,0,185);        // dark-blue
+    case 8:    return cv::Scalar(0,185,0);        // dark-green
+    case 9:    return cv::Scalar(185,0,0);        // dark-red
     default:
         countGraph = 0;    // start rotating through colors again.
-        return CV_RGB(200,200,200);    // grey
+        return cv::Scalar(200,200,200);    // grey
     }
 }
 // Call 'setGraphColor()' to reset the colors that will be used for graphs.
@@ -450,7 +450,7 @@ void setGraphColor(int index)
 // Specify the exact color that the next graph should be drawn as.
 void setCustomGraphColor(int R, int B, int G)
 {
-    customGraphColor = CV_RGB(R, G, B);
+    customGraphColor = cv::Scalar(R, G, B);
     usingCustomGraphColor = 1;    // show that it will be used.
 }
 
@@ -488,7 +488,7 @@ IplImage* drawFloatGraph(const float *arraySrc, int nArrayLength, IplImage *imag
         cerr << "ERROR in drawFloatGraph(): Couldn't create image of " << w << " x " << h << endl;
         exit(1);
     }
-    CvScalar colorGraph = getGraphColor();    // use a different color each time.
+    cv::Scalar colorGraph = getGraphColor();    // use a different color each time.
 
     // If the user didnt supply min & mav values, find them from the data, so we can draw it at full scale.
     if (fabs(minV) < 0.0000001f && fabs(maxV) < 0.0000001f) {
@@ -515,7 +515,7 @@ IplImage* drawFloatGraph(const float *arraySrc, int nArrayLength, IplImage *imag
     cvInitFont(&font,CV_FONT_HERSHEY_PLAIN,0.55,0.7, 0,1,CV_AA);    // For OpenCV 1.1
     if (showScale) {
         //cvInitFont(&font,CV_FONT_HERSHEY_PLAIN,0.5,0.6, 0,1, CV_AA);    // For OpenCV 2.0
-        CvScalar clr = GREY;
+        cv::Scalar clr = GREY;
         char text[16];
         snprintf(text, sizeof(text)-1, "%.1f", maxV);
         cvPutText(imageGraph, text, cvPoint(1, b+4), &font, clr);
@@ -537,7 +537,7 @@ IplImage* drawFloatGraph(const float *arraySrc, int nArrayLength, IplImage *imag
     // Write the graph label, if desired
     if (graphLabel != NULL && strlen(graphLabel) > 0) {
         //cvInitFont(&font,CV_FONT_HERSHEY_PLAIN, 0.5,0.7, 0,1,CV_AA);
-        cvPutText(imageGraph, graphLabel, cvPoint(30, 10), &font, CV_RGB(0,0,0));    // black text
+        cvPutText(imageGraph, graphLabel, cvPoint(30, 10), &font, cv::Scalar(0,0,0));    // black text
     }
 
     return imageGraph;
@@ -577,7 +577,7 @@ IplImage* drawIntGraph(const int *arraySrc, int nArrayLength, IplImage *imageDst
         cerr << "ERROR in drawIntGraph(): Couldn't create image of " << w << " x " << h << endl;
         exit(1);
     }
-    CvScalar colorGraph = getGraphColor();    // use a different color each time.
+    cv::Scalar colorGraph = getGraphColor();    // use a different color each time.
 
     // If the user didnt supply min & mav values, find them from the data, so we can draw it at full scale.
     if (minV == 0 && maxV == 0) {
@@ -604,7 +604,7 @@ IplImage* drawIntGraph(const int *arraySrc, int nArrayLength, IplImage *imageDst
     cvInitFont(&font,CV_FONT_HERSHEY_PLAIN,0.55,0.7, 0,1,CV_AA);    // For OpenCV 1.1
     if (showScale) {
         //cvInitFont(&font,CV_FONT_HERSHEY_PLAIN,0.5,0.6, 0,1, CV_AA);    // For OpenCV 2.0
-        CvScalar clr = GREY;
+        cv::Scalar clr = GREY;
         char text[16];
         snprintf(text, sizeof(text)-1, "%d", maxV);
         cvPutText(imageGraph, text, cvPoint(1, b+4), &font, clr);
@@ -626,7 +626,7 @@ IplImage* drawIntGraph(const int *arraySrc, int nArrayLength, IplImage *imageDst
     // Write the graph label, if desired
     if (graphLabel != NULL && strlen(graphLabel) > 0) {
         //cvInitFont(&font,CV_FONT_HERSHEY_PLAIN, 0.5,0.7, 0,1,CV_AA);
-        cvPutText(imageGraph, graphLabel, cvPoint(30, 10), &font, CV_RGB(0,0,0));    // black text
+        cvPutText(imageGraph, graphLabel, cvPoint(30, 10), &font, cv::Scalar(0,0,0));    // black text
     }
 
     return imageGraph;
@@ -666,7 +666,7 @@ IplImage* drawUCharGraph(const uchar *arraySrc, int nArrayLength, IplImage *imag
         cerr << "ERROR in drawUCharGraph(): Couldn't create image of " << w << " x " << h << endl;
         exit(1);
     }
-    CvScalar colorGraph = getGraphColor();    // use a different color each time.
+    cv::Scalar colorGraph = getGraphColor();    // use a different color each time.
 
     // If the user didnt supply min & mav values, find them from the data, so we can draw it at full scale.
     if (minV == 0 && maxV == 0) {
@@ -693,7 +693,7 @@ IplImage* drawUCharGraph(const uchar *arraySrc, int nArrayLength, IplImage *imag
     cvInitFont(&font,CV_FONT_HERSHEY_PLAIN,0.55,0.7, 0,1,CV_AA);    // For OpenCV 1.1
     if (showScale) {
         //cvInitFont(&font,CV_FONT_HERSHEY_PLAIN,0.5,0.6, 0,1, CV_AA);    // For OpenCV 2.0
-        CvScalar clr = GREY;
+        cv::Scalar clr = GREY;
         char text[16];
         snprintf(text, sizeof(text)-1, "%d", maxV);
         cvPutText(imageGraph, text, cvPoint(1, b+4), &font, clr);
@@ -715,7 +715,7 @@ IplImage* drawUCharGraph(const uchar *arraySrc, int nArrayLength, IplImage *imag
     // Write the graph label, if desired
     if (graphLabel != NULL && strlen(graphLabel) > 0) {
         //cvInitFont(&font,CV_FONT_HERSHEY_PLAIN, 0.5,0.7, 0,1,CV_AA);
-        cvPutText(imageGraph, graphLabel, cvPoint(30, 10), &font, CV_RGB(0,0,0));    // black text
+        cvPutText(imageGraph, graphLabel, cvPoint(30, 10), &font, cv::Scalar(0,0,0));    // black text
     }
 
     return imageGraph;
@@ -731,11 +731,12 @@ void showFloatGraph(const char *name, const float *arraySrc, int nArrayLength, i
     IplImage *imageGraph = drawFloatGraph(arraySrc, nArrayLength, background);
 
     // Display the graph into a window
-    cvNamedWindow( name );
-    cvShowImage( name, imageGraph );
+    cv::namedWindow( name );
+	cv::Mat imageGraphMat = cvarrToMat(imageGraph);
+	cv::imshow(name, imageGraphMat);
 
-    cvWaitKey( 10 );        // Note that cvWaitKey() is required for the OpenCV window to show!
-    cvWaitKey( delay_ms );    // Wait longer to make sure the user has seen the graph
+    cv::waitKey( 10 );        // Note that cv::waitKey() is required for the OpenCV window to show!
+    cv::waitKey( delay_ms );    // Wait longer to make sure the user has seen the graph
 
     cvReleaseImage(&imageGraph);
 #endif
@@ -749,13 +750,13 @@ void showIntGraph(const char *name, const int *arraySrc, int nArrayLength, int d
 #ifdef USE_HIGHGUI
     // Draw the graph
     IplImage *imageGraph = drawIntGraph(arraySrc, nArrayLength, background);
-
     // Display the graph into a window
-    cvNamedWindow( name );
-    cvShowImage( name, imageGraph );
-
-    cvWaitKey( 10 );        // Note that cvWaitKey() is required for the OpenCV window to show!
-    cvWaitKey( delay_ms );    // Wait longer to make sure the user has seen the graph
+    cv::namedWindow( name );
+	cv::Mat imageGraphMat= cvarrToMat(imageGraph);
+    cv::imshow( name, imageGraphMat);
+	
+    cv::waitKey( 10 );        // Note that cv::waitKey() is required for the OpenCV window to show!
+    cv::waitKey( delay_ms );    // Wait longer to make sure the user has seen the graph
 
     cvReleaseImage(&imageGraph);
 #endif
@@ -771,11 +772,12 @@ void showUCharGraph(const char *name, const uchar *arraySrc, int nArrayLength, i
     IplImage *imageGraph = drawUCharGraph(arraySrc, nArrayLength, background);
 
     // Display the graph into a window
-    cvNamedWindow( name );
-    cvShowImage( name, imageGraph );
-
-    cvWaitKey( 10 );        // Note that cvWaitKey() is required for the OpenCV window to show!
-    cvWaitKey( delay_ms );    // Wait longer to make sure the user has seen the graph
+    cv::namedWindow( name );
+	cv::Mat imageGraphMat = cvarrToMat(imageGraph);
+    cv::imshow( name, imageGraphMat);
+	
+    cv::waitKey( 10 );        // Note that cv::waitKey() is required for the OpenCV window to show!
+    cv::waitKey( delay_ms );    // Wait longer to make sure the user has seen the graph
 
     cvReleaseImage(&imageGraph);
 #endif
@@ -788,9 +790,9 @@ void showImage(const IplImage *img, int delay_ms, char *name)
 #ifdef USE_HIGHGUI
     if (!name)
         name = "Image";
-    cvNamedWindow(name, CV_WINDOW_AUTOSIZE);
-    cvShowImage(name, img);
-    cvWaitKey(delay_ms);
+    cv::namedWindow(name, CV_WINDOW_AUTOSIZE);
+    cv::imshow(name, img);
+    cv::waitKey(delay_ms);
 #endif
 */
 }
@@ -1411,7 +1413,7 @@ CvRect offsetRectPt(const CvRect rectA, const CvPoint pt)
 }
 
 // Draw a rectangle around the given object.
-void drawRect(IplImage *img, const CvRect rect, const CvScalar color)
+void drawRect(IplImage *img, const CvRect rect, const cv::Scalar color)
 {
     CvPoint p1, p2;
     p1.x = rect.x;
@@ -1421,7 +1423,7 @@ void drawRect(IplImage *img, const CvRect rect, const CvScalar color)
     cvRectangle(img, p1, p2, color, 1);
 }
 // Draw a filled rectangle around the given object.
-void drawRectFilled(IplImage *img, const CvRect rect, const CvScalar color)
+void drawRectFilled(IplImage *img, const CvRect rect, const cv::Scalar color)
 {
     CvPoint p1, p2;
     p1.x = rect.x;
@@ -1432,7 +1434,7 @@ void drawRectFilled(IplImage *img, const CvRect rect, const CvScalar color)
 }
 
 // Draw a crossbar at the given position.
-void drawCross(IplImage *img, const CvPoint pt, int radius, const CvScalar color)
+void drawCross(IplImage *img, const CvPoint pt, int radius, const cv::Scalar color)
 {
     CvPoint p1, p2, p3, p4;
     // Make sure the points are within the image
@@ -1902,7 +1904,7 @@ IplImage* combineImages(int nArgs, ...)
         return NULL;
 
     // Clear the background
-    cvSet(combinedImage, CV_RGB(50,50,50));
+    cvSet(combinedImage, cv::Scalar(50,50,50));
 
     for (i=0; i < nGoodImages; i++) {
         IplImage *img = imageArray[i];
@@ -2038,8 +2040,12 @@ int saveImage(const char *filename, const IplImage *image)
     IplImage *image8Bit = cvCreateImage(cvSize(image->width,image->height), IPL_DEPTH_8U, image->nChannels);    // 8-bit greyscale image.
     if (image8Bit)
         cvConvert(image, image8Bit);    // Convert to an 8-bit image instead of potentially 16,24,32 or 64bit image.
-    if (image8Bit)
-        ret = cvSaveImage(filename, image8Bit);
+	if (image8Bit) {
+		cv::Mat imageMat = cvarrToMat(image8Bit);
+		ret = imwrite(filename, imageMat);
+	}
+        
+	
     if (image8Bit)
         cvReleaseImage(&image8Bit);
 #endif
@@ -2119,14 +2125,15 @@ void saveFloatImage(const char *filename, const IplImage *srcImg)
         return;
     }
     IplImage *byteImg = convertFloatImageToUcharImage(srcImg);
-    cvSaveImage(filename, byteImg);
+	cv::Mat imageGraphMat = cvarrToMat(byteImg);
+    cv::imwrite(filename, imageGraphMat);
     cvReleaseImage(&byteImg);
     //cout << "done saveFloatImage()" << endl;
 #endif
 }
 
 // Draw some text onto an image using printf() format.
-void drawText(IplImage *img, CvPoint position, CvScalar color, char *fmt, ...)
+void drawText(IplImage *img, CvPoint position, cv::Scalar color, char *fmt, ...)
 {
     // Write the given arguments to 'szMsg' using printf() style formatting.
     va_list marker;

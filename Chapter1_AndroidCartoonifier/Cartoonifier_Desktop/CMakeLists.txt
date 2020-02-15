@@ -9,6 +9,8 @@ SET(SRC
     main_desktop.cpp
     cartoon.cpp
     ImageUtils_0.7.cpp
+	cartoon.h
+	ImageUtils.h
 )
 
 ADD_EXECUTABLE( ${PROJECT_NAME} ${SRC} )

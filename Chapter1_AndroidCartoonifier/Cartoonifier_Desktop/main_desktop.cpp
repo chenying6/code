@@ -126,8 +126,8 @@ int main(int argc, char *argv[])
 
     // Try to set the camera resolution. Note that this only works for some cameras on
     // some computers and only for some drivers, so don't rely on it to work!
-    camera.set(CV_CAP_PROP_FRAME_WIDTH, DESIRED_CAMERA_WIDTH);
-    camera.set(CV_CAP_PROP_FRAME_HEIGHT, DESIRED_CAMERA_HEIGHT);
+    camera.set(cv::CAP_PROP_FRAME_WIDTH, DESIRED_CAMERA_WIDTH);
+    camera.set(cv::CAP_PROP_FRAME_HEIGHT, DESIRED_CAMERA_HEIGHT);
 
     // Create a GUI window for display on the screen.
     namedWindow(windowName); // Resizable window, might not work on Windows.
